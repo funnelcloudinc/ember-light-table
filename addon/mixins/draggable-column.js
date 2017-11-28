@@ -38,6 +38,14 @@ export default Mixin.create({
 
   isDropTarget: computed(function() {
     let column = this.get('column');
+    
+    /* 
+     FIX: Draggable rows that were dragged onto Columns were causing this method to fire. 
+     Since sourceColumn is undefined as we are dragging a row we cannot call `get` so this 
+     method should return early
+     */
+    if (!sourceColumn) return false; 
+    
     /*
      A column is a valid drop target only if its in the same group
      */
